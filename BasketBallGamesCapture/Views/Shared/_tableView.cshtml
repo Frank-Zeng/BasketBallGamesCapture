@@ -1,0 +1,43 @@
+﻿<table style="width: 100%;" data-bind="foreach:sourceList">
+    <tr>
+        <th>Time</th>
+        <th>Team</th>
+        <th>Score</th>
+        <th>FG%</th>
+        <th>2P%</th>
+        <th>3P%</th>
+        <th>FT%</th>
+        <th>OFF</th>
+        <th>ASS</th>
+        <th>TO</th>
+        <th>Alert</th>
+        <th>PTP</th>
+        <th>HPR/R</th>
+    </tr>
+    <tr>
+        <td data-bind="text:GamesCurrentTime"></td>
+        <td data-bind="text:HomeTeamName">Kolossos</td>
+        <td data-bind="text:HomeScore">35</td>
+        <td data-bind="text:HomeFG">41%</td>
+        <td data-bind="text:HomeTwoP">56%</td>
+        <td data-bind="text:HomeThreeP">12%</td>
+        <td data-bind="text:HomeFT">82%</td>
+        <td data-bind="text:HomeOffReb">2</td>
+        <td data-bind="text:HomeASS">6</td>
+        <td data-bind="text:HomeTO">6</td>
+        <td rowspan="2" style="background-color:yellow" data-bind="text:Alert">P/H</td>
+        <td rowspan="2" data-bind="text:PTP">143</td>
+        <td rowspan="2" data-bind="text:HPR">-1.6</td>
+    </tr>
+    <tr>
+        <td data-bind="text:GamesStartTime"></td>
+        <td data-bind="text:VisitTeamName">Olymipacos</td>
+        <td data-bind="text:VisitScore">35</td>
+        <td data-bind="text:VisitFG">52%</td>
+        <td data-bind="text:VisitTwoP">60%</td>
+        <td data-bind="text:VisitThreeP">20%</td>
+        <td data-bind="text:VisitFT">61%</td>
+        <td data-bind="text:VisitOffReb">6</td>
+        <td data-bind="text:VisitASS">9</td>
+        <td data-bind="text:VisitTO">8</td>
+</table>

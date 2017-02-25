@@ -1,0 +1,72 @@
+﻿<div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12"
+     id="settingPanel" 
+     style="width: 100%;">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">
+    设置
+    </button>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse" id="demo">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: center">
+            <h2>主队</h2>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: center">
+            <h2>客队</h2>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="form-control" style="text-align: center;"><label>2分球命中率</label></div>
+                <div class="form-control" style="text-align: center;"><label>3分球命中率</label></div>
+                <div class="form-control" style="text-align: center;"><label>罚球命中率</label></div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:homeTwoPValue" type="text" />
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:homeThreePValue" type="text" />
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:homeFreeTValue" type="text" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:visitTwoPValue" type="text" />
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:visitThreePValue" type="text" />
+                <input class="form-control" style="text-align: center;margin:auto" data-bind="value:visitFreeTValue" type="text" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+     id="gamesTable" 
+     style="margin-top: 20px;">
+    <!-- Nav tabs -->
+    <ul class="nav nav-pills col-lg-12 col-md-12 col-sm-12 col-xs-12" role="tablist">
+        <li role="presentation" data-bind="click:getNBATodayData" style="width: 20%;margin: 0 0 0 0;text-align: center" class="nav-item active">
+            <a href="#nbaleague" role="tab" data-toggle="tab">NBA联赛</a>
+        </li>
+        <li role="presentation" data-bind="click:getEurocupTodayData" style="width: 20%;margin: 0 0 0 0;text-align: center" class="nav-item">
+            <a href="#europeanleague" role="tab" data-toggle="tab">Eurocup欧洲篮球俱乐部联赛</a>
+        </li>
+        <li role="presentation" data-bind="click:getACBTodayData" style="width: 20%;margin: 0 0 0 0;text-align: center" class="nav-item">
+            <a href="#spanishleague" role="tab" data-toggle="tab">ACB西班牙篮球联赛</a>
+        </li>
+        <li role="presentation" data-bind="click:getVTBLeagueTodayData" style="width: 20%;margin: 0 0 0 0;text-align: center" class="nav-item">
+            <a href="#otherleague"  role="tab" data-toggle="tab">VTB-League东欧篮球联赛</a>
+        </li>
+        <li role="presentation" data-bind="click:getBekoBBLTodayData"style="width: 20%;margin: 0 0 0 0;text-align: center" class="nav-item">
+            <a href="#otherleague" role="tab" data-toggle="tab">Beko-BBL德国篮球联赛</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;padding-left:0px;padding-right:0px">
+        <div role="tabpanel" class="tab-pane active" id="nbaleague">
+            @Html.Partial("~/Views/Shared/_tableView.cshtml")
+        </div>
+        @*<div role="tabpanel" class="tab-pane" id="europeanleague">
+            @Html.Partial("~/Views/Shared/_tableView.cshtml")
+        </div>
+        <div role="tabpanel" class="tab-pane" id="spanishleague">
+            @Html.Partial("~/Views/Shared/_tableView.cshtml")
+        </div>
+        <div role="tabpanel" class="tab-pane" id="otherleague">
+            @Html.Partial("~/Views/Shared/_tableView.cshtml")
+        </div>*@
+    </div>
+</div>
