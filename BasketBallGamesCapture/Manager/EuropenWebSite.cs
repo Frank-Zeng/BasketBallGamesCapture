@@ -40,6 +40,7 @@ namespace BasketBallGamesCapture.Manager
         {
             try
             {
+
                 webDriver.Navigate().Refresh();
                 List<CaptureData> todayList = new List<CaptureData>();
 
@@ -94,7 +95,7 @@ namespace BasketBallGamesCapture.Manager
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
             finally
             {
