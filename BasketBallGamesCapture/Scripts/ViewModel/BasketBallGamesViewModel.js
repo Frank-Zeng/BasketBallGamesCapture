@@ -43,6 +43,8 @@ var todayVM = function(data){
 var sourceListVM = function(){
     var self = this;
 
+    self.interTime = ko.observable(10000);
+
     self.sourceList = ko.observableArray();
 
     self.getNBATodayData = function () {
@@ -57,10 +59,54 @@ var sourceListVM = function(){
             var x = error;
             setting.isLoadingdata(false);
             });
-        setInterval(function () {
-            setting.isLoadingdata(true);
-            BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
-                self.sourceList.removeAll();
+        //setInterval(function () {
+        //    setting.isLoadingdata(true);
+        //    BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
+        //        self.sourceList.removeAll();
+        //    ko.utils.arrayForEach(data, function (item, index) {
+        //        self.sourceList.push(new todayVM(item));
+        //    });
+        //    setting.isLoadingdata(false);
+        //}, function (error) {
+        //    var x = error;
+        //    setting.isLoadingdata(false);
+        //});
+        //}, self.interTime());
+    };
+
+
+
+    self.getEurocupTodayData = function () {
+        setting.isLoadingdata(true);
+        BasketBallGamesCaptureService.getEuropenGamesTodayDataList(function (data) {
+            self.sourceList.removeAll();
+            ko.utils.arrayForEach(data, function (item, index) {
+                self.sourceList.push(new todayVM(item));
+                });
+            setting.isLoadingdata(false);
+            }, function (error) {
+            var x = error;
+            setting.isLoadingdata(false);
+            });
+        //setInterval(function () {
+        //    setting.isLoadingdata(true);
+        //    BasketBallGamesCaptureService.getEuropenGamesTodayDataList(function (data) {
+        //        self.sourceList.removeAll();
+        //    ko.utils.arrayForEach(data, function (item, index) {
+        //        self.sourceList.push(new todayVM(item));
+        //    });
+        //    setting.isLoadingdata(false);
+        //}, function (error) {
+        //    var x = error;
+        //    setting.isLoadingdata(false);
+        //});
+        //}, self.interTime());
+    };
+
+    self.getACBTodayData = function () {
+        setting.isLoadingdata(true);
+        BasketBallGamesCaptureService.getACBGamesTodayDataList(function (data) {
+            self.sourceList.removeAll();
             ko.utils.arrayForEach(data, function (item, index) {
                 self.sourceList.push(new todayVM(item));
             });
@@ -69,41 +115,73 @@ var sourceListVM = function(){
             var x = error;
             setting.isLoadingdata(false);
         });
-        },10000);
-    };
-
-
-
-    self.getEurocupTodayData = function () {
-        BasketBallGamesCaptureService.getEuropenGamesTodayDataList(function (data) {
-
-        }, function (error) {
-
-    });
-    };
-
-    self.getACBTodayData = function () {
-        BasketBallGamesCaptureService.getACBGamesTodayDataList(function (data) {
-
-        }, function (error) {
-
-        });
+        //setInterval(function () {
+        //    setting.isLoadingdata(true);
+        //    BasketBallGamesCaptureService.getACBGamesTodayDataList(function (data) {
+        //        self.sourceList.removeAll();
+        //        ko.utils.arrayForEach(data, function (item, index) {
+        //            self.sourceList.push(new todayVM(item));
+        //        });
+        //        setting.isLoadingdata(false);
+        //    }, function (error) {
+        //        var x = error;
+        //        setting.isLoadingdata(false);
+        //    });
+        //}, self.interTime());
     };
 
     self.getVTBLeagueTodayData = function () {
+        setting.isLoadingdata(true);
         BasketBallGamesCaptureService.getVtbLeagueGamesTodayDataList(function (data) {
-
+            self.sourceList.removeAll();
+            ko.utils.arrayForEach(data, function (item, index) {
+                self.sourceList.push(new todayVM(item));
+            });
+            setting.isLoadingdata(false);
         }, function (error) {
-
+            var x = error;
+            setting.isLoadingdata(false);
         });
+        //setInterval(function () {
+        //    setting.isLoadingdata(true);
+        //    BasketBallGamesCaptureService.getVtbLeagueGamesTodayDataList(function (data) {
+        //        self.sourceList.removeAll();
+        //        ko.utils.arrayForEach(data, function (item, index) {
+        //            self.sourceList.push(new todayVM(item));
+        //        });
+        //        setting.isLoadingdata(false);
+        //    }, function (error) {
+        //        var x = error;
+        //        setting.isLoadingdata(false);
+        //    });
+        //}, self.interTime());
     };
 
     self.getBekoBBLTodayData = function () {
+        setting.isLoadingdata(true);
         BasketBallGamesCaptureService.getBekoGamesTodayDataList(function (data) {
-
+            self.sourceList.removeAll();
+            ko.utils.arrayForEach(data, function (item, index) {
+                self.sourceList.push(new todayVM(item));
+            });
+            setting.isLoadingdata(false);
         }, function (error) {
-
+            var x = error;
+            setting.isLoadingdata(false);
         });
+        //setInterval(function () {
+        //    setting.isLoadingdata(true);
+        //    BasketBallGamesCaptureService.getBekoGamesTodayDataList(function (data) {
+        //        self.sourceList.removeAll();
+        //        ko.utils.arrayForEach(data, function (item, index) {
+        //            self.sourceList.push(new todayVM(item));
+        //        });
+        //        setting.isLoadingdata(false);
+        //    }, function (error) {
+        //        var x = error;
+        //        setting.isLoadingdata(false);
+        //    });
+        //}, self.interTime());
     };
 }
 

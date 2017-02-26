@@ -24,7 +24,7 @@
     };
 
     BasketBallGamesCaptureService.prototype.getBekoGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetBekoGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("GetEasyCreditGamesTodayData", null, successCallback, errorCallback);
     };
 
     return BasketBallGamesCaptureService;
