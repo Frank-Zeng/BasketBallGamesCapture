@@ -20,3 +20,8 @@ table, th, td{
 		border: 1px solid black;
         text-align:center!important
 	}
+
+.progress-bar {
+    -webkit-transition: none !important;
+    transition: none !important;
+}

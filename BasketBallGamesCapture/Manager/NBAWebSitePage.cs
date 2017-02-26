@@ -35,39 +35,49 @@
             }
         }
 
-        public async Task<List<CaptureData>> GetNBAGamesList()
+        public async Task<List<CaptureData>> GetNBAGamesListAsync()
         {
             //Get today games list.
             try
             {
+                webDriver.Navigate().Refresh();
                 List<CaptureData> todayList = new List<CaptureData>();
                 var elementTodaytDay = webDriver.FindElement(By.Id("day-today"));
-                //    var elementNextDay = webDriver.FindElement(By.Id("day-next"));
-                //  var elementPreviousDay = webDriver.FindElement(By.Id("day-previous"));
-
                 var items = elementTodaytDay.FindElements(By.XPath(".//div[contains(@class, 'ng-scope')]"));
 
                 var tasks = items.Select(async item => {
-                    var startTime = item.FindElements(By.XPath(".//span[contains(@class, 'ng-binding')]"))[1].Text;
-
-                    var id = item.GetAttribute("bo-gameid");
-                    var names = item.FindElements(By.XPath(".//span[contains(@class, 'name')]"));
-                    var HomeTeamName = names[0].Text;
-                    var VisitTeamName = names[1].Text;
-                    if (string.IsNullOrEmpty(HomeTeamName))
+                    try
                     {
-                        HomeTeamName = names[0].GetAttribute("innerHTML");
+                        var timeDiv = item.FindElement(By.XPath(".//div[contains(@class, 'time livestate poststate')]"));
+                        if (!string.IsNullOrEmpty(timeDiv.Text) && timeDiv.Text.Contains("直播"))
+                        {
+                            var array = timeDiv.Text.Split(' ');
+                            var id = item.GetAttribute("bo-gameid");
+                            var names = item.FindElements(By.XPath(".//span[contains(@class, 'name')]"));
+                            var HomeTeamName = names[0].Text;
+                            var VisitTeamName = names[1].Text;
+                            if (string.IsNullOrEmpty(HomeTeamName))
+                            {
+                                HomeTeamName = names[0].GetAttribute("innerHTML");
+                            }
+                            if (string.IsNullOrEmpty(VisitTeamName))
+                            {
+                                VisitTeamName = names[1].GetAttribute("innerHTML");
+                            }
+                            //Load detail information.
+                            var data = await NavgateToNBADetailPageAsync(id.ToString(), HomeTeamName, VisitTeamName);
+                            data.HomeTeamName = HomeTeamName;
+                            data.VisitTeamName = VisitTeamName;
+                            data.GamesStartTime = array[3];
+                            data.GamesCurrentTime = array[1];
+                            todayList.Add(data);
+                        }
                     }
-                    if (string.IsNullOrEmpty(VisitTeamName))
+                    catch(Exception ex)
                     {
-                        VisitTeamName = names[1].GetAttribute("innerHTML");
+                        return;
                     }
-                    //Load detail information.
-                    var data = await NavgateToNBADetailPageAsync(id.ToString(), startTime, HomeTeamName, VisitTeamName);
-                    data.HomeTeamName = HomeTeamName;
-                    data.VisitTeamName = VisitTeamName;
-                    data.GamesStartTime = startTime;
-                    todayList.Add(data);
+                   
                 }).ToList();
                 await Task.WhenAll(tasks);
 
@@ -77,13 +87,18 @@
             {
                 throw (ex);
             }
+            finally
+            {
+                webDriver.Close();
+                webDriver.Dispose();
+            }
         }
 
-        public async Task<CaptureData> NavgateToNBADetailPageAsync(string id, string startTime, string homeName, string visitName)
+        public async Task<CaptureData> NavgateToNBADetailPageAsync(string id, string homeName, string visitName)
         {
             string url = string.Format("{0}{1}", Constants.NBADetailUrl, id);
             NBADetailPageInfo detail = new NBADetailPageInfo(BrowserType.PhantomJSDriver, url);
-            return detail.GetDetailPageInfo(startTime, homeName, visitName);
+            return detail.GetDetailPageInfo( homeName, visitName);
         }
     }
 }

@@ -36,10 +36,12 @@ namespace BasketBallGamesCapture.Manager
             }
         }
 
-        public CaptureData GetDetailPageInfo(string startTime, string homeName, string visitName)
+        public CaptureData GetDetailPageInfo( string homeName, string visitName)
         {
             try
             {
+                webDriver.Navigate().Refresh();
+
                 CaptureData data = new CaptureData();
                 var tables = webDriver.FindElements(By.XPath(".//table[contains(@class, 'sib-zebra-stripes no-sort ng-scope')]"));
                 var homeTable = tables[0];

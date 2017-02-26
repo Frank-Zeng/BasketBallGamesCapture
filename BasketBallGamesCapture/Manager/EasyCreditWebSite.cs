@@ -1,4 +1,5 @@
-﻿using BasketBallGamesCapture.Utils;
+﻿using BasketBallGamesCapture.Models;
+using BasketBallGamesCapture.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
@@ -35,10 +36,12 @@ namespace BasketBallGamesCapture.Manager
             }
         }
 
-        public void GetEasyCreditGamesList()
+        public async Task<List<CaptureData>> GetEasyCreditTodayGamesAsync()
         {
             try
             {
+                webDriver.Navigate().Refresh();
+                List<CaptureData> todayList = new List<CaptureData>();
                 var gamesListPanel = webDriver.FindElement(By.Id("gamecenter-content"));
 
                 //Get the games who has not finished.
@@ -47,60 +50,77 @@ namespace BasketBallGamesCapture.Manager
                 //Get the games who has finished.
                 var finishPanel = gamesListPanel.FindElements(By.XPath(".//div[contains(@class, 'finished')]"));
 
-                foreach(var item in finishPanel)
+                var tasks = finishPanel.Select(async item =>
                 {
-                    var timeElement = item.FindElement(By.XPath(".//div[contains(@class, 'info')]/time"));
-                    var timeString = timeElement.Text;
-                    if (string.IsNullOrEmpty(timeString))
+                    try
                     {
-                        timeString = timeElement.GetAttribute("innerHTML");
-                    }
-                    var date = timeString.Split(',')[0];
-                    var time = timeString.Split(',')[1];
-                    var easyDate = date.Split('.');
-                    var day = easyDate[0];
-                    var month = easyDate[1];
-                    var year = string.Format("20{0}",easyDate[2]);
+                        var timeElement = item.FindElement(By.XPath(".//div[contains(@class, 'info')]/time"));
+                        var timeString = timeElement.Text;
+                        if (string.IsNullOrEmpty(timeString))
+                        {
+                            timeString = timeElement.GetAttribute("innerHTML");
+                        }
+                        var date = timeString.Split(',')[0];
+                        var time = timeString.Split(',')[1];
+                        var easyDate = date.Split('.');
+                        var day = easyDate[0];
+                        var month = easyDate[1];
+                        var year = string.Format("20{0}", easyDate[2]);
 
-                    if(string.Equals(Int32.Parse(year),DateTime.UtcNow.Year) 
-                        && string.Equals(Int32.Parse(month),DateTime.UtcNow.Month) 
-                        && string.Equals(Int32.Parse(day), DateTime.UtcNow.Day))
+                        if (string.Equals(Int32.Parse(year), DateTime.UtcNow.Year)
+                            && string.Equals(Int32.Parse(month), DateTime.UtcNow.Month)
+                            && string.Equals(Int32.Parse(day), DateTime.UtcNow.Day))
+                        {
+                            var nameList = item.FindElements(By.XPath(".//table/tbody/tr/td/img"));
+                            var nameList2 = item.FindElements(By.XPath(".//table/tbody/tr/td"));
+
+                            var homeNameElement = nameList2[0];
+                            var visitNameElement = nameList2[2];
+                            var homeName = homeNameElement.Text;
+                            var visitName = visitNameElement.Text;
+                            if (string.IsNullOrEmpty(homeName))
+                            {
+                                homeName = homeNameElement.GetAttribute("innerHTML");
+                            }
+                            if (string.IsNullOrEmpty(visitName))
+                            {
+                                visitName = visitNameElement.GetAttribute("innerHTML");
+                            }
+                            homeName = homeName.Split('>')[1];
+                            visitName = visitName.Split('>')[1];
+
+                            var ele = item.FindElement(By.XPath("./div[contains(@class, 'more')]/a[2]"));
+                            var linkUrl = ele.GetAttribute("href");
+                            var data = await NavigateToDetailPageInfoAsync(linkUrl, time, homeName, visitName);
+                            todayList.Add(data);
+                        }
+                    }
+                    catch
                     {
-                        var nameList = item.FindElements(By.XPath(".//table/tbody/tr/td/img"));
-                        var nameList2 = item.FindElements(By.XPath(".//table/tbody/tr/td"));
-
-                        var homeNameElement = nameList2[0];
-                        var visitNameElement = nameList2[2];
-                        var homeName = homeNameElement.Text;
-                        var visitName = visitNameElement.Text;
-                        if (string.IsNullOrEmpty(homeName))
-                        {
-                            homeName = homeNameElement.GetAttribute("innerHTML");
-                        }
-                        if (string.IsNullOrEmpty(visitName))
-                        {
-                            visitName = visitNameElement.GetAttribute("innerHTML");
-                        }
-                        homeName = homeName.Split('>')[1];
-                        visitName = visitName.Split('>')[1];
-
-                        var ele = item.FindElement(By.XPath("./div[contains(@class, 'more')]/a[2]"));
-                        var linkUrl = ele.GetAttribute("href");
-                        NavigateToDetailPageInfo(linkUrl, time, homeName, visitName);
+                        return;
                     }
-                }
-                
+
+                }).ToList();
+
+                await Task.WhenAll(tasks);
+
+                return todayList;
             }
             catch (Exception ex)
             {
                 throw (ex);
             }
+            finally
+            {
+                webDriver.Close();
+                webDriver.Dispose();
+            }
         }
 
-        public void NavigateToDetailPageInfo(string url, string time, string homeName, string visitName)
+        public async Task<CaptureData> NavigateToDetailPageInfoAsync(string url, string time, string homeName, string visitName)
         {
             EasyCreditDetailPage driver = new EasyCreditDetailPage(BrowserType.PhantomJSDriver, url);
-            driver.GetDetailPageInfo(time, homeName, visitName);
+            return driver.GetDetailPageInfo(time, homeName, visitName);
         }
     }
 }

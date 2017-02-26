@@ -1,4 +1,5 @@
-﻿using BasketBallGamesCapture.Utils;
+﻿using BasketBallGamesCapture.Models;
+using BasketBallGamesCapture.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
@@ -35,46 +36,72 @@ namespace BasketBallGamesCapture.Manager
             }
         }
 
-        public void GetEuropenGamesList()
+        public async Task<List<CaptureData>> GetEuropenGamesAsync()
         {
-            var gameslink = webDriver.FindElements(By.XPath(".//a[contains(@class, 'game-link')]"));
-
-            foreach(var game in gameslink)
+            try
             {
-                //It will get empty string if the tag is hidden style. So must use innerHTML to get the text.
-                var dateTimeElement = game.FindElement(By.XPath(".//span[contains(@class, 'date')]"));
-                var dateTime = dateTimeElement.Text;
-                if (string.IsNullOrEmpty(dateTime))
-                {
-                    dateTime = dateTimeElement.GetAttribute("innerHTML");
-                }
-                var startTimeElement = game.FindElement(By.XPath(".//span[contains(@class, 'hour')]"));
-                var startTime = startTimeElement.Text;
-                if (string.IsNullOrEmpty(startTime))
-                {
-                    startTime = startTimeElement.GetAttribute("innerHTML");
-                }
-                var HomeTeamElement = game.FindElements(By.XPath(".//span[contains(@class, 'name')]"))[0];
-                var VisitTeamElement = game.FindElements(By.XPath(".//span[contains(@class, 'name')]"))[1];
-                var HomeTeamName = HomeTeamElement.Text;
-                var VisitTeamName = VisitTeamElement.Text;
+                webDriver.Navigate().Refresh();
+                List<CaptureData> todayList = new List<CaptureData>();
 
-                if (string.IsNullOrEmpty(HomeTeamName))
-                {
-                    HomeTeamName = HomeTeamElement.GetAttribute("innerHTML");
-                }
-                if (string.IsNullOrEmpty(VisitTeamName))
-                {
-                    VisitTeamName = VisitTeamElement.GetAttribute("innerHTML");
-                }
-                var linkUrl = game.GetAttribute("href");
+                var gameslink = webDriver.FindElements(By.XPath(".//a[contains(@class, 'game-link')]"));
+                var tasks = gameslink.Select(async game => {
+                    try
+                    {
+                        //It will get empty string if the tag is hidden style. So must use innerHTML to get the text.
+                        var dateTimeElement = game.FindElement(By.XPath(".//span[contains(@class, 'date')]"));
+                        var dateTime = dateTimeElement.Text;
+                        if (string.IsNullOrEmpty(dateTime))
+                        {
+                            dateTime = dateTimeElement.GetAttribute("innerHTML");
+                        }
+                        var startTimeElement = game.FindElement(By.XPath(".//span[contains(@class, 'hour')]"));
+                        var startTime = startTimeElement.Text;
+                        if (string.IsNullOrEmpty(startTime))
+                        {
+                            startTime = startTimeElement.GetAttribute("innerHTML");
+                        }
+                        var HomeTeamElement = game.FindElements(By.XPath(".//span[contains(@class, 'name')]"))[0];
+                        var VisitTeamElement = game.FindElements(By.XPath(".//span[contains(@class, 'name')]"))[1];
+                        var HomeTeamName = HomeTeamElement.Text;
+                        var VisitTeamName = VisitTeamElement.Text;
 
-                var time = dateTime.Split(' ');
-                if(CompareMonth(time[0]) && string.Equals(Int32.Parse(time[1]), DateTime.UtcNow.Day))
-                {
-                    NavigateToEuropenDetailPageInfo(linkUrl, startTime, HomeTeamName, VisitTeamName);
-                }
+                        if (string.IsNullOrEmpty(HomeTeamName))
+                        {
+                            HomeTeamName = HomeTeamElement.GetAttribute("innerHTML");
+                        }
+                        if (string.IsNullOrEmpty(VisitTeamName))
+                        {
+                            VisitTeamName = VisitTeamElement.GetAttribute("innerHTML");
+                        }
+                        var linkUrl = game.GetAttribute("href");
+
+                        var time = dateTime.Split(' ');
+                        if (CompareMonth(time[0]) && string.Equals(Int32.Parse(time[1]), DateTime.UtcNow.Day))
+                        {
+                            var data = await NavigateToEuropenDetailPageInfoAsync(linkUrl, startTime, HomeTeamName, VisitTeamName);
+                            todayList.Add(data);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        return;
+                    }
+                }).ToList();
+
+                await Task.WhenAll(tasks);
+
+                return todayList;
             }
+            catch(Exception ex)
+            {
+
+            }
+            finally
+            {
+                webDriver.Close();
+                webDriver.Dispose();
+            }
+         
         }
 
         private bool CompareMonth(string month)
@@ -112,10 +139,10 @@ namespace BasketBallGamesCapture.Manager
             }
         }
 
-        public void NavigateToEuropenDetailPageInfo(string url, string startTime, string homeName, string visitName)
+        public async Task<CaptureData> NavigateToEuropenDetailPageInfoAsync(string url, string startTime, string homeName, string visitName)
         {
             EuropenDetailPage detail = new EuropenDetailPage(BrowserType.PhantomJSDriver, url);
-            detail.GetDetailPageInfo(startTime, homeName, visitName);
+            return detail.GetDetailPageInfo(startTime, homeName, visitName);
         }
     }
 }

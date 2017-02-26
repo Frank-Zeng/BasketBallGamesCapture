@@ -23,32 +23,37 @@ namespace BasketBallGamesCapture.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetNBAGamesTodayData()
         {
-            var captureData = await captureDataRepository.GetNBATodayData();
+            var captureData = await captureDataRepository.GetNBATodayDataAsync();
             return Ok(captureData.AsQueryable());
         }
 
         [HttpGet]
-        public IHttpActionResult GetEuropenGamesTodayData()
+        public async Task<IHttpActionResult> GetACBGamesTodayData()
         {
-            return Ok("Europen Games");
+            var captureData = await captureDataRepository.GetACBTodayDataAsync();
+            return Ok(captureData.AsQueryable());
         }
 
         [HttpGet]
-        public IHttpActionResult GetVtbLeagueGamesTodayData()
+        public async Task<IHttpActionResult> GetEasyCreditGamesTodayData()
         {
-            return Ok("Vtb league Games");
+            var captureData = await captureDataRepository.GetEasyCreditGamesTodayDataAsync();
+            return Ok(captureData.AsQueryable());
         }
 
         [HttpGet]
-        public IHttpActionResult GetACBGamesTodayData()
+        public async Task<IHttpActionResult> GetEuropenGamesTodayData()
         {
-            return Ok("ACB Games");
+            var captureData = await captureDataRepository.GetEuropenGamesTodayDataAsync();
+            return Ok(captureData.AsQueryable());
         }
 
+
         [HttpGet]
-        public IHttpActionResult GetBekoGamesTodayData()
+        public async Task<IHttpActionResult> GetVtbLeagueGamesTodayData()
         {
-            return Ok("Beko Games");
+            var captureData = await captureDataRepository.GetVtbGamesTodayDataAsync();
+            return Ok(captureData.AsQueryable());
         }
     }
 }

@@ -21,6 +21,8 @@ namespace BasketBallGamesCapture.Utils
         //ACB Site.
         public static string ACBWebSiteUrl = "http://acb.com/jv/";
 
+        public static string ACBWebSiteDetailUrl = "http://www.fibalivestats.com/webcast/ACBS/";
+
         //Vtb Site.
         public static string VtbWebSiteUrl = "http://www.vtb-league.com/";
 

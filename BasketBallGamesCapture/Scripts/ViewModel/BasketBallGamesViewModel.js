@@ -46,21 +46,40 @@ var sourceListVM = function(){
     self.sourceList = ko.observableArray();
 
     self.getNBATodayData = function () {
+        setting.isLoadingdata(true);
         BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
+            self.sourceList.removeAll();
+            ko.utils.arrayForEach(data, function (item, index) {
+                self.sourceList.push(new todayVM(item));
+                });
+            setting.isLoadingdata(false);
+            }, function (error) {
+            var x = error;
+            setting.isLoadingdata(false);
+            });
+        setInterval(function () {
+            setting.isLoadingdata(true);
+            BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
+                self.sourceList.removeAll();
             ko.utils.arrayForEach(data, function (item, index) {
                 self.sourceList.push(new todayVM(item));
             });
+            setting.isLoadingdata(false);
         }, function (error) {
             var x = error;
+            setting.isLoadingdata(false);
         });
+        },10000);
     };
 
-    self.getEurocupTodayData = function(){
+
+
+    self.getEurocupTodayData = function () {
         BasketBallGamesCaptureService.getEuropenGamesTodayDataList(function (data) {
 
         }, function (error) {
 
-        });
+    });
     };
 
     self.getACBTodayData = function () {

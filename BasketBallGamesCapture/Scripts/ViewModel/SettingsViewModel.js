@@ -3,6 +3,7 @@
 var settingVM = function () {
     var self = this;
 
+    self.isLoadingdata = ko.observable(false);
     self.homeTwoPValue = ko.observable("52");
     self.visitTwoPValue = ko.observable("50");
 

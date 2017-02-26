@@ -1,4 +1,5 @@
-﻿using BasketBallGamesCapture.Utils;
+﻿using BasketBallGamesCapture.Models;
+using BasketBallGamesCapture.Utils;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
@@ -35,35 +36,51 @@ namespace BasketBallGamesCapture.Manager
             }
         }
 
-        public void GetDetailPageInfo(string startTime, string homeName, string visitName)
+        public CaptureData GetDetailPageInfo(string startTime, string homeName, string visitName)
         {
-            var tables = webDriver.FindElements(By.XPath(".//table/tfoot/tr"));
+            try
+            {
+                webDriver.Navigate().Refresh();
+                var data = new CaptureData();
+                var tables = webDriver.FindElements(By.XPath(".//table/tfoot/tr"));
 
-            var HomeArray = tables[1].Text.Split(' ');
-            var homescore = HomeArray[1];
-            var hometwoPercentage = HomeArray[4];
-            var homethreePercentage = HomeArray[7];
-            var homefgPercentage = HomeArray[10];
-            var homefreePercentage = HomeArray[13];
-            var homeDefRebounds = HomeArray[14];
-            var homeOffRebounds = HomeArray[15];
-            var homereb = HomeArray[16];
-            var homeass = HomeArray[17];
-            var homesteal = HomeArray[18];
-            var HomeTo = HomeArray[19];
+                var HomeArray = tables[3].Text.Split(' ');
+                data.HomeScore = HomeArray[1];
+                data.HomeTwoP = HomeArray[4];
+                data.HomeThreeP = HomeArray[7];
+                data.HomeFG = HomeArray[10];
+                data.HomeFT = HomeArray[13];
+                data.HomeDefReb = HomeArray[14];
+                data.HomeOffReb = HomeArray[15];
+                data.HomeReb = HomeArray[16];
+                data.HomeASS = HomeArray[17];
+                data.HomeSteal = HomeArray[18];
+                data.HomeTO = HomeArray[19];
 
-            var VisitArray = tables[3].Text.Split(' '); ;
-            var visitscore = VisitArray[1];
-            var visittwoPercentage = VisitArray[4];
-            var visitthreePercentage = VisitArray[7];
-            var visitfgPercentage = VisitArray[10];
-            var visitfreePercentage = VisitArray[13];
-            var visitDefRebounds = VisitArray[14];
-            var visitOffRebounds = VisitArray[15];
-            var visitreb = VisitArray[16];
-            var visitass = VisitArray[17];
-            var visitsteal = VisitArray[18];
-            var visitto = VisitArray[19];
+                var VisitArray = tables[1].Text.Split(' '); ;
+                data.VisitScore = VisitArray[1];
+                data.VisitTwoP = VisitArray[4];
+                data.VisitThreeP = VisitArray[7];
+                data.VisitFG = VisitArray[10];
+                data.VisitFT = VisitArray[13];
+                data.VisitDefReb = VisitArray[14];
+                data.VisitOffReb = VisitArray[15];
+                data.VisitReb = VisitArray[16];
+                data.VisitASS = VisitArray[17];
+                data.VisitSteal = VisitArray[18];
+                data.VisitTO = VisitArray[19];
+
+                return data;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                webDriver.Close();
+                webDriver.Dispose();
+            }
         }
     }
 }

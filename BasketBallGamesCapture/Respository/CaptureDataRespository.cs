@@ -14,16 +14,45 @@ namespace BasketBallGamesCapture.Respository
     {
         private HistoryAlertDBContext dbContext;
         private NBAWebSitePage nbaWebSitePage;
+        private ACBWebSitePage acbWebSitePage;
+        private EasyCreditWebSite easyCreditSitePage;
+        private EuropenWebSite europenSitePage;
+        private VtbWebSitePage vtbSitePage;
+
 
         public CaptureDataRespository()
         {
             dbContext = new HistoryAlertDBContext(ConfigureHelper.HistoryConnectString);
             nbaWebSitePage = new NBAWebSitePage(BrowserType.PhantomJSDriver);
+            acbWebSitePage = new ACBWebSitePage(BrowserType.PhantomJSDriver);
+            easyCreditSitePage = new EasyCreditWebSite(BrowserType.PhantomJSDriver);
+            europenSitePage = new EuropenWebSite(BrowserType.PhantomJSDriver);
+            vtbSitePage = new VtbWebSitePage(BrowserType.PhantomJSDriver);
         }
 
-        public async Task<List<CaptureData>> GetNBATodayData()
+        public async Task<List<CaptureData>> GetNBATodayDataAsync()
         {
-            return await nbaWebSitePage.GetNBAGamesList();
+            return await nbaWebSitePage.GetNBAGamesListAsync();
+        }
+
+        public async Task<List<CaptureData>> GetACBTodayDataAsync()
+        {
+            return await acbWebSitePage.GetTodayACBWebSitePageAsync();
+        }
+
+        public async Task<List<CaptureData>> GetEasyCreditGamesTodayDataAsync()
+        {
+            return await easyCreditSitePage.GetEasyCreditTodayGamesAsync();
+        }
+
+        public async Task<List<CaptureData>> GetEuropenGamesTodayDataAsync()
+        {
+            return await europenSitePage.GetEuropenGamesAsync();
+        }
+
+        public async Task<List<CaptureData>> GetVtbGamesTodayDataAsync()
+        {
+            return await vtbSitePage.GetVtbGamesAsync();
         }
 
     }
