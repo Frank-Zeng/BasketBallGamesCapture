@@ -19,7 +19,7 @@ namespace BasketBallGamesCapture
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{action}/{id}",
-                defaults: new { controller="CaptureData", id = RouteParameter.Optional }
+                defaults: new { controller="NBA", id = RouteParameter.Optional }
             );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));

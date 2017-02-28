@@ -47,6 +47,38 @@ var sourceListVM = function(){
 
     self.sourceList = ko.observableArray();
 
+    self.nbaUrls = ko.observableArray();
+
+    self.getNBATodayUrls = function () {
+        setting.isLoadingdata(true);
+        BasketBallGamesCaptureService.getNBAGamesUrls(function (data) {
+            self.nbaUrls.removeAll();
+            ko.utils.arrayForEach(data, function (item, index) {
+                self.nbaUrls.push(item);
+                BasketBallGamesCaptureService.getSpecifyGamesData(item, function (data) {
+                    self.sourceList.push(new todayVM(data));
+                    setting.isLoadingdata(false);
+                }, function (error) {
+                    setting.isLoadingdata(false);
+                });
+            });
+
+        }, function (error) {
+            var x = error;
+            setting.isLoadingdata(false);
+        });
+    };
+
+    self.getSpecifyData = function () {
+        BasketBallGamesCaptureService.getSpecifyGamesData("0021600883", function (data) {
+            self.sourceList.removeAll();
+            elf.sourceList.push(new todayVM(data));
+            setting.isLoadingdata(false);
+        }, function (error) {
+            setting.isLoadingdata(false);
+        });
+    }
+
     self.getNBATodayData = function () {
         setting.isLoadingdata(true);
         BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {

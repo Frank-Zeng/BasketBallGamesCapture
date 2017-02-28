@@ -11,6 +11,14 @@
         this.serviceProxy.get("GetNBAGamesTodayData", null, successCallback, errorCallback);
     };
 
+    BasketBallGamesCaptureService.prototype.getNBAGamesUrls = function (successCallback, errorCallback) {
+        this.serviceProxy.get("GetNBAGamesUrls", null, successCallback, errorCallback);
+    };
+
+    BasketBallGamesCaptureService.prototype.getSpecifyGamesData = function (url, successCallback, errorCallback) {
+        this.serviceProxy.get("GetSpecifyGamesData/?id=" + url, null, successCallback, errorCallback);
+    };
+
     BasketBallGamesCaptureService.prototype.getEuropenGamesTodayDataList = function (successCallback, errorCallback) {
         this.serviceProxy.get("GetEuropenGamesTodayData", null, successCallback, errorCallback);
     };

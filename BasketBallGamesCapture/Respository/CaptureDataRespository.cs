@@ -10,24 +10,24 @@ using System.Web;
 
 namespace BasketBallGamesCapture.Respository
 {
-    public class CaptureDataRespository : ICaptureDataRespository
+    public class CaptureDataRespository
     {
-        private HistoryAlertDBContext dbContext;
+     //   private HistoryAlertDBContext dbContext;
         private NBAWebSitePage nbaWebSitePage;
-        private ACBWebSitePage acbWebSitePage;
-        private EasyCreditWebSite easyCreditSitePage;
-        private EuropenWebSite europenSitePage;
-        private VtbWebSitePage vtbSitePage;
+        //private ACBWebSitePage acbWebSitePage;
+        //private EasyCreditWebSite easyCreditSitePage;
+        //private EuropenWebSite europenSitePage;
+        //private VtbWebSitePage vtbSitePage;
 
 
         public CaptureDataRespository()
         {
-            dbContext = new HistoryAlertDBContext(ConfigureHelper.HistoryConnectString);
+        //    dbContext = new HistoryAlertDBContext(ConfigureHelper.HistoryConnectString);
             nbaWebSitePage = new NBAWebSitePage(BrowserType.PhantomJSDriver);
-            acbWebSitePage = new ACBWebSitePage(BrowserType.PhantomJSDriver);
-            easyCreditSitePage = new EasyCreditWebSite(BrowserType.PhantomJSDriver);
-            europenSitePage = new EuropenWebSite(BrowserType.PhantomJSDriver);
-            vtbSitePage = new VtbWebSitePage(BrowserType.PhantomJSDriver);
+            //acbWebSitePage = new ACBWebSitePage(BrowserType.PhantomJSDriver);
+            //easyCreditSitePage = new EasyCreditWebSite(BrowserType.PhantomJSDriver);
+            //europenSitePage = new EuropenWebSite(BrowserType.PhantomJSDriver);
+            //vtbSitePage = new VtbWebSitePage(BrowserType.PhantomJSDriver);
         }
 
         public async Task<List<CaptureData>> GetNBATodayDataAsync()
@@ -35,25 +35,37 @@ namespace BasketBallGamesCapture.Respository
             return await nbaWebSitePage.GetNBAGamesListAsync();
         }
 
-        public async Task<List<CaptureData>> GetACBTodayDataAsync()
+        
+        public CaptureData GetNBASpecifyData(string url)
         {
-            return await acbWebSitePage.GetTodayACBWebSitePageAsync();
+            return nbaWebSitePage.GetNBASpecifyData(url);
         }
 
-        public async Task<List<CaptureData>> GetEasyCreditGamesTodayDataAsync()
+        public IQueryable<string> GetNBAQueryUrl()
         {
-            return await easyCreditSitePage.GetEasyCreditTodayGamesAsync();
+            return nbaWebSitePage.GetNBAGamesUrls().AsQueryable();
         }
+        
 
-        public async Task<List<CaptureData>> GetEuropenGamesTodayDataAsync()
-        {
-            return await europenSitePage.GetEuropenGamesAsync();
-        }
+        //public async Task<List<CaptureData>> GetACBTodayDataAsync()
+        //{
+        //    return await acbWebSitePage.GetTodayACBWebSitePageAsync();
+        //}
 
-        public async Task<List<CaptureData>> GetVtbGamesTodayDataAsync()
-        {
-            return await vtbSitePage.GetVtbGamesAsync();
-        }
+        //public async Task<List<CaptureData>> GetEasyCreditGamesTodayDataAsync()
+        //{
+        //    return await easyCreditSitePage.GetEasyCreditTodayGamesAsync();
+        //}
+
+        //public async Task<List<CaptureData>> GetEuropenGamesTodayDataAsync()
+        //{
+        //    return await europenSitePage.GetEuropenGamesAsync();
+        //}
+
+        //public async Task<List<CaptureData>> GetVtbGamesTodayDataAsync()
+        //{
+        //    return await vtbSitePage.GetVtbGamesAsync();
+        //}
 
     }
 }

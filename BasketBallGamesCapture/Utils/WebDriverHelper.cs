@@ -7,6 +7,7 @@
     using OpenQA.Selenium.IE;
     using OpenQA.Selenium.PhantomJS;
     using System;
+    using System.Collections.Generic;
 
     public static class WebDriverHelper
     {
@@ -102,6 +103,19 @@
             }
 
             return driver;
+        }
+
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            if (list == null)
+            {
+                return;
+            }
+
+            foreach (var item in list)
+            {
+                action(item);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BasketBallGamesCapture.Models;
 using BasketBallGamesCapture.Respository;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,29 @@ using System.Web.Http;
 
 namespace BasketBallGamesCapture.Controllers
 {
-    public class CaptureDataController : ApiController
+    public class NBAController : ApiController
     {
         private CaptureDataRespository captureDataRepository;
 
-        public CaptureDataController()
+        public NBAController()
         {
-            captureDataRepository = new CaptureDataRespository();
+            if(captureDataRepository == null)
+            {
+                captureDataRepository = new CaptureDataRespository();
+            }
         }
 
+        [HttpGet]
+        public IHttpActionResult GetNBAGamesUrls()
+        {
+            return Ok(captureDataRepository.GetNBAQueryUrl());
+        }
+
+        [HttpGet]
+        public CaptureData GetSpecifyGamesData([FromUri] string id)
+        {
+            return captureDataRepository.GetNBASpecifyData(id);
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetNBAGamesTodayData()
@@ -27,6 +42,7 @@ namespace BasketBallGamesCapture.Controllers
             return Ok(captureData.AsQueryable());
         }
 
+        /*
         [HttpGet]
         public async Task<IHttpActionResult> GetACBGamesTodayData()
         {
@@ -55,5 +71,6 @@ namespace BasketBallGamesCapture.Controllers
             var captureData = await captureDataRepository.GetVtbGamesTodayDataAsync();
             return Ok(captureData.AsQueryable());
         }
+        */
     }
 }
