@@ -19,6 +19,8 @@
      */
     ServiceProxy.prototype.sendRequest = function (method, httpMethod, data, customBeforeSend, successCallback, errorCallback) {
         var self = this;
+        if (!httpMethod)
+            httpMethod = "GET";
 
         $.ajax({
             type: httpMethod,
@@ -29,12 +31,13 @@
             data: data != null ? data : {},
             cache: false,
             beforeSend: function (xhr) {
+                xhr.setRequestHeader("Accept", "application/json");
                 if (customBeforeSend != null) {
                     customBeforeSend();
                 };
             },
             success: function (data) {
-                if (successCallback != null) {
+                if (successCallback !== null) {
                     successCallback(data);
                 }
             },
@@ -71,4 +74,23 @@
     };
 
     return ServiceProxy;
+})();
+
+
+var jQueryService = (function (url) {
+
+    function jQueryService(url) {
+        this.url = url;
+    };
+
+    jQueryService.prototype.sendRequest = function (method, httpMethod, data, customBeforeSend, successCallback, errorCallback) {
+
+        $.getJSON(method)
+    };
+
+    jQueryService.prototype.getJson = function (method, beforeSend, successCallback, errorCallback) {
+        this.sendRequest(method, "GET", null, beforeSend, successCallback, errorCallback);
+    };
+
+    return jQueryService;
 })();

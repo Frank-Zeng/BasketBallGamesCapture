@@ -16,7 +16,7 @@
     };
 
     BasketBallGamesCaptureService.prototype.getSpecifyGamesData = function (url, successCallback, errorCallback) {
-        this.serviceProxy.get("GetSpecifyGamesData/?id=" + url, null, successCallback, errorCallback);
+        this.serviceProxy.get("GetGamesData/?id=" + JSON.stringify(url), null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getEuropenGamesTodayDataList = function (successCallback, errorCallback) {

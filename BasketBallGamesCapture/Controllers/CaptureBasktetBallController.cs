@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace BasketBallGamesCapture.Controllers
 {
-    public class NBAController : ApiController
+    public class CaptureBasktetBallController : ApiController
     {
         private CaptureDataRespository captureDataRepository;
 
-        public NBAController()
+        public CaptureBasktetBallController()
         {
             if(captureDataRepository == null)
             {
@@ -30,16 +31,19 @@ namespace BasketBallGamesCapture.Controllers
         }
 
         [HttpGet]
-        public CaptureData GetSpecifyGamesData([FromUri] string id)
+        public async Task<IHttpActionResult> GetGamesData([FromUri] string id)
         {
-            return captureDataRepository.GetNBASpecifyData(id);
+            string replacement = Regex.Replace(id.Trim(), @"\\|\[|\]", "");
+            string str = replacement.Replace(@"\", "").Replace("\"", "");
+            List<string> urls = str.Split(',').ToList();
+            var data = await captureDataRepository.GetNBASpecifyData(urls);
+            return Ok(data);
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetNBAGamesTodayData()
+        public IHttpActionResult GetNBAGamesTodayData()
         {
-            var captureData = await captureDataRepository.GetNBATodayDataAsync();
-            return Ok(captureData.AsQueryable());
+            return Ok(captureDataRepository.GetNBATodayData().AsQueryable());
         }
 
         /*

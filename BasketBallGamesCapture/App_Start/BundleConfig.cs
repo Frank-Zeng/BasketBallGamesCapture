@@ -20,8 +20,9 @@ namespace BasketBallGamesCapture
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/knockout-3.4.1.js",
-                      "~/Scripts/Service/ServiceProxy.js",
+                      "~/Scripts/Service/ServiceProxy.js", 
                       "~/Scripts/Service/BasketBallGamesCaptureService.js",
+                      "~/Scripts/Service/NBAService.js",
                       "~/Scripts/ViewModel/SettingsViewModel.js",
                       "~/Scripts/ViewModel/BasketBallGamesViewModel.js"));
 

@@ -55,42 +55,48 @@ var sourceListVM = function(){
             self.nbaUrls.removeAll();
             ko.utils.arrayForEach(data, function (item, index) {
                 self.nbaUrls.push(item);
-                BasketBallGamesCaptureService.getSpecifyGamesData(item, function (data) {
-                    self.sourceList.push(new todayVM(data));
-                    setting.isLoadingdata(false);
-                }, function (error) {
-                    setting.isLoadingdata(false);
-                });
             });
-
+            setting.isLoadingdata(false);
         }, function (error) {
             var x = error;
             setting.isLoadingdata(false);
         });
     };
 
-    self.getSpecifyData = function () {
-        BasketBallGamesCaptureService.getSpecifyGamesData("0021600883", function (data) {
-            self.sourceList.removeAll();
-            elf.sourceList.push(new todayVM(data));
-            setting.isLoadingdata(false);
-        }, function (error) {
-            setting.isLoadingdata(false);
-        });
-    }
+    //self.getSpecifyData = function () {
+    //    BasketBallGamesCaptureService.getSpecifyGamesData("0021600883", function (data) {
+    //        self.sourceList.removeAll();
+    //        self.sourceList.push(new todayVM(data));
+    //        setting.isLoadingdata(false);
+    //    }, function (error) {
+    //        setting.isLoadingdata(false);
+    //    });
+    //}
 
     self.getNBATodayData = function () {
-        setting.isLoadingdata(true);
-        BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
-            self.sourceList.removeAll();
-            ko.utils.arrayForEach(data, function (item, index) {
-                self.sourceList.push(new todayVM(item));
-                });
-            setting.isLoadingdata(false);
-            }, function (error) {
-            var x = error;
-            setting.isLoadingdata(false);
-            });
+        BasketBallGamesCaptureService.getSpecifyGamesData(self.nbaUrls(), function (data) {
+                self.sourceList.removeAll();
+                ko.utils.arrayForEach(data, function (item, index) {
+                    self.sourceList.push(new todayVM(item));
+                    });
+                setting.isLoadingdata(false);
+            },
+           function (error) {
+               var x = error;
+               setting.isLoadingdata(false);
+           });
+        
+        //setting.isLoadingdata(true);
+        //BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
+        //    self.sourceList.removeAll();
+        //    ko.utils.arrayForEach(data, function (item, index) {
+        //        self.sourceList.push(new todayVM(item));
+        //        });
+        //    setting.isLoadingdata(false);
+        //    }, function (error) {
+        //    var x = error;
+        //    setting.isLoadingdata(false);
+        //    });
         //setInterval(function () {
         //    setting.isLoadingdata(true);
         //    BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
