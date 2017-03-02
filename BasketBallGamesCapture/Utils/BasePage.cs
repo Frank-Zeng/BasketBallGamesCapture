@@ -89,7 +89,7 @@
         {
             var wait = new WebDriverWait(webDriver, TimeSpan.FromSeconds(timeOut));
 
-            return wait.Until(d => element.Displayed == true);
+            return wait.Until(d => element != null);
         }
 
         public bool WaitTillActionDone(Func<IWebDriver, bool> predicateAction, int timeOut = 60)

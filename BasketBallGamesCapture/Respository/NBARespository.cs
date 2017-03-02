@@ -13,24 +13,15 @@ using System.Web;
 
 namespace BasketBallGamesCapture.Respository
 {
-    public class CaptureDataRespository
+    public class NBARespository : BaseRespository
     {
-        //   private HistoryAlertDBContext dbContext;
         private NBAWebSitePage nbaWebSitePage;
-        //private ACBWebSitePage acbWebSitePage;
-        //private EasyCreditWebSite easyCreditSitePage;
-        //private EuropenWebSite europenSitePage;
-        //private VtbWebSitePage vtbSitePage;
+       
 
 
-        public CaptureDataRespository()
+        public NBARespository()
         {
-            //    dbContext = new HistoryAlertDBContext(ConfigureHelper.HistoryConnectString);
             nbaWebSitePage = new NBAWebSitePage(BrowserType.PhantomJSDriver);
-            //acbWebSitePage = new ACBWebSitePage(BrowserType.PhantomJSDriver);
-            //easyCreditSitePage = new EasyCreditWebSite(BrowserType.PhantomJSDriver);
-            //europenSitePage = new EuropenWebSite(BrowserType.PhantomJSDriver);
-            //vtbSitePage = new VtbWebSitePage(BrowserType.PhantomJSDriver);
         }
 
         public List<string> GetNBATodayData()
@@ -89,6 +80,9 @@ namespace BasketBallGamesCapture.Respository
                            data.HomeTO = obj.payload.homeTeam.score.turnovers.ToString();
                            data.VisitTO = obj.payload.awayTeam.score.turnovers.ToString();
 
+                           data.GamesStartTime = obj.payload.boxscore.statusDesc;
+                           data.GamesCurrentTime = obj.payload.boxscore.periodClock;
+
                            list.Add(data);
                        }
                        catch (Exception ex)
@@ -107,27 +101,5 @@ namespace BasketBallGamesCapture.Respository
         {
             return nbaWebSitePage.GetNBAGamesUrls().AsQueryable();
         }
-
-
-        //public async Task<List<CaptureData>> GetACBTodayDataAsync()
-        //{
-        //    return await acbWebSitePage.GetTodayACBWebSitePageAsync();
-        //}
-
-        //public async Task<List<CaptureData>> GetEasyCreditGamesTodayDataAsync()
-        //{
-        //    return await easyCreditSitePage.GetEasyCreditTodayGamesAsync();
-        //}
-
-        //public async Task<List<CaptureData>> GetEuropenGamesTodayDataAsync()
-        //{
-        //    return await europenSitePage.GetEuropenGamesAsync();
-        //}
-
-        //public async Task<List<CaptureData>> GetVtbGamesTodayDataAsync()
-        //{
-        //    return await vtbSitePage.GetVtbGamesAsync();
-        //}
-
     }
 }

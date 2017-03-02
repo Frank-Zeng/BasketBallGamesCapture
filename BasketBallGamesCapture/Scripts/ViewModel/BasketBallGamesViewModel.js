@@ -63,17 +63,8 @@ var sourceListVM = function(){
         });
     };
 
-    //self.getSpecifyData = function () {
-    //    BasketBallGamesCaptureService.getSpecifyGamesData("0021600883", function (data) {
-    //        self.sourceList.removeAll();
-    //        self.sourceList.push(new todayVM(data));
-    //        setting.isLoadingdata(false);
-    //    }, function (error) {
-    //        setting.isLoadingdata(false);
-    //    });
-    //}
-
     self.getNBATodayData = function () {
+        setting.isLoadingdata(true);
         BasketBallGamesCaptureService.getSpecifyGamesData(self.nbaUrls(), function (data) {
                 self.sourceList.removeAll();
                 ko.utils.arrayForEach(data, function (item, index) {
@@ -86,33 +77,7 @@ var sourceListVM = function(){
                setting.isLoadingdata(false);
            });
         
-        //setting.isLoadingdata(true);
-        //BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
-        //    self.sourceList.removeAll();
-        //    ko.utils.arrayForEach(data, function (item, index) {
-        //        self.sourceList.push(new todayVM(item));
-        //        });
-        //    setting.isLoadingdata(false);
-        //    }, function (error) {
-        //    var x = error;
-        //    setting.isLoadingdata(false);
-        //    });
-        //setInterval(function () {
-        //    setting.isLoadingdata(true);
-        //    BasketBallGamesCaptureService.getNBAGamesTodayDataList(function (data) {
-        //        self.sourceList.removeAll();
-        //    ko.utils.arrayForEach(data, function (item, index) {
-        //        self.sourceList.push(new todayVM(item));
-        //    });
-        //    setting.isLoadingdata(false);
-        //}, function (error) {
-        //    var x = error;
-        //    setting.isLoadingdata(false);
-        //});
-        //}, self.interTime());
     };
-
-
 
     self.getEurocupTodayData = function () {
         setting.isLoadingdata(true);
@@ -126,19 +91,6 @@ var sourceListVM = function(){
             var x = error;
             setting.isLoadingdata(false);
             });
-        //setInterval(function () {
-        //    setting.isLoadingdata(true);
-        //    BasketBallGamesCaptureService.getEuropenGamesTodayDataList(function (data) {
-        //        self.sourceList.removeAll();
-        //    ko.utils.arrayForEach(data, function (item, index) {
-        //        self.sourceList.push(new todayVM(item));
-        //    });
-        //    setting.isLoadingdata(false);
-        //}, function (error) {
-        //    var x = error;
-        //    setting.isLoadingdata(false);
-        //});
-        //}, self.interTime());
     };
 
     self.getACBTodayData = function () {
@@ -153,19 +105,6 @@ var sourceListVM = function(){
             var x = error;
             setting.isLoadingdata(false);
         });
-        //setInterval(function () {
-        //    setting.isLoadingdata(true);
-        //    BasketBallGamesCaptureService.getACBGamesTodayDataList(function (data) {
-        //        self.sourceList.removeAll();
-        //        ko.utils.arrayForEach(data, function (item, index) {
-        //            self.sourceList.push(new todayVM(item));
-        //        });
-        //        setting.isLoadingdata(false);
-        //    }, function (error) {
-        //        var x = error;
-        //        setting.isLoadingdata(false);
-        //    });
-        //}, self.interTime());
     };
 
     self.getVTBLeagueTodayData = function () {
@@ -225,5 +164,6 @@ var sourceListVM = function(){
 
 $(function () {
     sourceData = new sourceListVM();
+    sourceData.getNBATodayUrls();
     ko.applyBindings(sourceData, document.getElementById("gamesTable"));
 });

@@ -45,6 +45,7 @@ namespace BasketBallGamesCapture.Manager
                 var tables = webDriver.FindElements(By.XPath(".//table/tfoot/tr"));
 
                 var HomeArray = tables[3].Text.Split(' ');
+                data.HomeTeamName = homeName;
                 data.HomeScore = HomeArray[1];
                 data.HomeTwoP = HomeArray[4];
                 data.HomeThreeP = HomeArray[7];
@@ -69,6 +70,7 @@ namespace BasketBallGamesCapture.Manager
                 data.VisitASS = VisitArray[17];
                 data.VisitSteal = VisitArray[18];
                 data.VisitTO = VisitArray[19];
+                data.VisitTeamName = visitName;
 
                 return data;
             }

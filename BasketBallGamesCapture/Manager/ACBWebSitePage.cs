@@ -76,7 +76,7 @@ namespace BasketBallGamesCapture.Manager
         public async Task<CaptureData> NavgateToACBDetailPageAsync(string url)
         {
             var str = url.Split(new char[] { 'c', '='});
-            ACBWebSiteDetailPage detail = new ACBWebSiteDetailPage(BrowserType.PhantomJSDriver, Constants.ACBWebSiteDetailUrl + str[4]);
+            ACBWebSiteDetailPage detail = new ACBWebSiteDetailPage(BrowserType.PhantomJSDriver, string.Format(Constants.ACBWebSiteDetailUrl,str[4]));
             return detail.GetDetailInfo();
         }
     }

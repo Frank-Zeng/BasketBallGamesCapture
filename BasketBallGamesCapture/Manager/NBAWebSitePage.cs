@@ -139,6 +139,7 @@
                 data.VisitOffReb = visit[17];
                 data.VisitDefReb = visit[18];
                 data.VisitTwoP = string.Format("{0}%", ((float.Parse(visit[8]) - float.Parse(visit[11])) / (float.Parse(visit[9]) - float.Parse(visit[12])) * 100).ToString("0.0"));
+                
                 data.VisitTO = visit[19];
                 return data;
             }
@@ -267,6 +268,9 @@
 
                         data.HomeTO = obj.payload.homeTeam.score.turnovers.ToString();
                         data.VisitTO = obj.payload.awayTeam.score.turnovers.ToString();
+
+                        data.GamesStartTime = obj.payload.boxscore.statusDesc;
+                        data.GamesCurrentTime = obj.payload.boxscore.periodClock;
                         return data;
                     }
                     catch

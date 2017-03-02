@@ -8,31 +8,31 @@
     };
 
     BasketBallGamesCaptureService.prototype.getNBAGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetNBAGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("NBA/GetNBAGamesTodayData", null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getNBAGamesUrls = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetNBAGamesUrls", null, successCallback, errorCallback);
+        this.serviceProxy.get("NBA/GetNBAGamesUrls", null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getSpecifyGamesData = function (url, successCallback, errorCallback) {
-        this.serviceProxy.get("GetGamesData/?id=" + JSON.stringify(url), null, successCallback, errorCallback);
+        this.serviceProxy.get("NBA/GetGamesData/?id=" + JSON.stringify(url), null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getEuropenGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetEuropenGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("Europen/GetEuropenGamesTodayData", null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getVtbLeagueGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetVtbLeagueGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("VtbLeague/GetVtbLeagueGamesTodayData", null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getACBGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetACBGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("ACB/GetACBGamesTodayData", null, successCallback, errorCallback);
     };
 
     BasketBallGamesCaptureService.prototype.getBekoGamesTodayDataList = function (successCallback, errorCallback) {
-        this.serviceProxy.get("GetEasyCreditGamesTodayData", null, successCallback, errorCallback);
+        this.serviceProxy.get("EasyCredit/GetEasyCreditGamesTodayData", null, successCallback, errorCallback);
     };
 
     return BasketBallGamesCaptureService;

@@ -47,6 +47,8 @@ namespace BasketBallGamesCapture.Manager
                 var ele = VisitTable.FindElement(By.XPath(".//tr[contains(@class, 'TotalFooter')]"));
                 var array = ele.FindElements(By.XPath(".//td"));
                 data.VisitScore = array[3].Text;
+                var visitfg = (float.Parse(array[4].Text.Split('/')[0]) + float.Parse(array[5].Text.Split('/')[0])) / (float.Parse(array[4].Text.Split('/')[1]) + float.Parse(array[5].Text.Split('/')[1]));
+                data.VisitFG = string.Format("{0}%", (visitfg * 100).ToString("0.0"));
                 data.VisitTwoP = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(array[4].Text) * 100, 1).ToString());
                 data.VisitThreeP = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(array[5].Text) * 100, 1).ToString());
                 data.VisitFT = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(array[6].Text) * 100, 1).ToString());
@@ -61,6 +63,8 @@ namespace BasketBallGamesCapture.Manager
                 var homeEle = HomeTable.FindElement(By.XPath(".//tr[contains(@class, 'TotalFooter')]"));
                 var homeArray = homeEle.FindElements(By.XPath(".//td"));
                 data.HomeScore = homeArray[3].Text;
+                var homefg = (float.Parse(homeArray[4].Text.Split('/')[0]) + float.Parse(homeArray[5].Text.Split('/')[0])) / (float.Parse(homeArray[4].Text.Split('/')[1]) + float.Parse(homeArray[5].Text.Split('/')[1]));
+                data.HomeFG = string.Format("{0}%", (homefg * 100).ToString("0.0"));
                 data.HomeTwoP = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(homeArray[4].Text) * 100, 1).ToString());
                 data.HomeThreeP = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(homeArray[5].Text) * 100, 1).ToString());
                 data.HomeFT = string.Format("{0}%", Math.Round(WebDriverExtensions.FractionToDouble(homeArray[6].Text) * 100, 1).ToString());
@@ -70,6 +74,9 @@ namespace BasketBallGamesCapture.Manager
                 data.HomeASS = homeArray[10].Text;
                 data.HomeSteal = homeArray[11].Text;
                 data.HomeTO = homeArray[12].Text;
+
+                data.HomeTeamName = homeName;
+                data.VisitTeamName = visitName;
 
                 return data;
             }
